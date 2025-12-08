@@ -9,7 +9,7 @@ services:
   # Execution Layer
   linea-sepolia-besu:
     restart: on-failure:5
-    image: consensys/linea-besu-package:beta-v4.4-rc5-20251128003548-a3bfee7
+    image: consensys/linea-besu-package:beta-v4.4-rc7-20251202165721-14b8f4c
     hostname: el-client
     ports:
       - "0.0.0.0:30301:30301" # peering
