@@ -1,0 +1,56 @@
+# Named volumes for persistence.
+volumes:
+  linea-mainnet-besu:
+    name: "linea-mainnet-besu"
+  linea-mainnet-maru:
+    name: "linea-mainnet-maru"
+
+services:
+  # Execution Layer
+  linea-mainnet-besu:
+    restart: on-failure:5
+    image: consensys/linea-besu-package:beta-v4.4-rc7-20251202165721-14b8f4c
+    hostname: el-client
+    ports:
+      - "0.0.0.0:30301:30301" # peering
+      - "0.0.0.0:10545:8545" # HTTP RPC
+      - "0.0.0.0:10546:8546" # WS RPC
+      - "127.0.0.1:10551:8551" # engine API (for Maru)
+    volumes:
+      - linea-mainnet-besu:/opt/besu
+      - ./jwttoken/jwt.hex:/opt/jwt/jwt.hex:ro
+    command: >
+      --network linea_mainnet
+      --profile advanced-mainnet
+      --p2p-port 30301
+      --rpc-http-enabled="true"
+      --rpc-http-host 0.0.0.0
+      --rpc-http-port 8545
+      --rpc-http-api "ETH,NET,WEB3"
+      --rpc-ws-enabled="true"
+      --rpc-ws-host 0.0.0.0
+      --rpc-ws-port 8546
+      --engine-rpc-enabled
+      --engine-rpc-port 8551
+      --engine-jwt-disabled="false"
+      --engine-jwt-secret="/opt/jwt/jwt.hex"
+      --data-path /opt/besu
+      --sync-mode snap
+
+  # Consensus Layer
+  linea-mainnet-maru:
+    restart: on-failure:5
+    image: consensys/maru:9737a45
+    depends_on:
+      - linea-mainnet-besu
+    ports:
+      - "0.0.0.0:9005:9005" # peering
+      - "0.0.0.0:10080:8080" # Beacon HTTP API
+    volumes:
+      - linea-mainnet-maru:/opt/maru
+      - ./jwttoken/jwt.hex:/opt/jwt/jwt.hex:ro
+      - ./maru-config.toml:/opt/maru-config.toml:ro
+    command: >
+      java -jar maru.jar
+      --network linea-mainnet
+      --config="/opt/maru-config.toml"

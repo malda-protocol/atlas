@@ -2,4 +2,5 @@
 
 This repository container container-based setup for the following networks:
 
+- Linea Mainnet (full-node)
 - Linea Sepolia (full-node)
