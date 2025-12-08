@@ -1,0 +1,56 @@
+# Named volumes for persistence.
+volumes:
+  linea-sepolia-besu:
+    name: "linea-sepolia-besu"
+  linea-sepolia-maru:
+    name: "linea-sepolia-maru"
+
+services:
+  # Execution Layer
+  linea-sepolia-besu:
+    restart: on-failure:5
+    image: consensys/linea-besu-package:beta-v4.4-rc5-20251128003548-a3bfee7
+    hostname: el-client
+    ports:
+      - "0.0.0.0:30301:30301" # peering
+      - "0.0.0.0:10545:8545" # HTTP RPC
+      - "0.0.0.0:10546:8546" # WS RPC
+      - "127.0.0.1:10551:8551" # engine API (for Maru)
+    volumes:
+      - linea-sepolia-besu:/opt/besu
+      - ./jwttoken/jwt.hex:/opt/jwt/jwt.hex:ro
+    command: >
+      --network linea_sepolia
+      --profile advanced-sepolia
+      --p2p-port 30301
+      --rpc-http-enabled="true"
+      --rpc-http-host 0.0.0.0
+      --rpc-http-port 8545
+      --rpc-http-api "ETH,NET,WEB3"
+      --rpc-ws-enabled="true"
+      --rpc-ws-host 0.0.0.0
+      --rpc-ws-port 8546
+      --engine-rpc-enabled
+      --engine-rpc-port 8551
+      --engine-jwt-disabled="false"
+      --engine-jwt-secret="/opt/jwt/jwt.hex"
+      --data-path /opt/besu
+      --sync-mode snap
+
+  # Consensus Layer
+  linea-sepolia-maru:
+    restart: on-failure:5
+    image: consensys/maru:95cab28
+    depends_on:
+      - linea-sepolia-besu
+    ports:
+      - "0.0.0.0:9000:9000" # peering
+      - "0.0.0.0:10080:8080" # Beacon HTTP API
+    volumes:
+      - linea-sepolia-maru:/opt/maru
+      - ./jwttoken/jwt.hex:/opt/jwt/jwt.hex:ro
+      - ./maru-config.toml:/opt/maru-config.toml:ro
+    command: >
+      java -jar maru.jar
+      --network linea-sepolia
+      --config="/opt/maru-config.toml"

@@ -1,1 +1,5 @@
 = Atlas - RPC Infrastructure
+
+This repository container container-based setup for the following networks:
+
+- Linea Sepolia (full-node)

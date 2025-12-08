@@ -1,0 +1,23 @@
+= Linea Sepolia Node
+
+Full-node setup, using **Besu** and **Maru**, compatible with **Fusaka**.
+
+NOTE: Setup was based on https://github.com/Consensys/linea-monorepo/tree/2086150679af75c2700742ea204600c2be2b64df/docs/getting-started/linea-sepolia.
+
+== Steps
+
+. Generate JWT token:
++
+[source,sh]
+----
+./generate-jwt-token.sh
+----
+
+. Run containers:
++
+[source,sh]
+----
+docker compose up --deatch
+----
+
+. Wait an hour or two until it gets synced.
