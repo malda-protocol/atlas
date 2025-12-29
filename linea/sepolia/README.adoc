@@ -17,7 +17,7 @@ NOTE: Setup was based on https://github.com/Consensys/linea-monorepo/tree/208615
 +
 [source,sh]
 ----
-docker compose up --deatch
+docker compose up --detach
 ----
 
 . Wait an hour or two until it gets synced.
