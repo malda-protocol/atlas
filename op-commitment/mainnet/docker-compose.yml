@@ -5,8 +5,8 @@ services:
     image: koxu1996/op-node:v1.16.3
     ports:
       - "0.0.0.0:9547:9547" # RPC
-      - "0.0.0.0:9223:9223" # P2P TCP
-      - "0.0.0.0:9223:9223/udp" # P2P UDP
+      - "0.0.0.0:9224:9224" # P2P TCP
+      - "0.0.0.0:9224:9224/udp" # P2P UDP
     command: >
       --l1=https://ethereum-rpc.publicnode.com
       --l1.rpckind=basic
@@ -15,5 +15,5 @@ services:
       --rpc.addr=0.0.0.0
       --rpc.port=9547
       --p2p.listen.ip=0.0.0.0
-      --p2p.listen.tcp=9223
+      --p2p.listen.tcp=9224
       --gossip-only
