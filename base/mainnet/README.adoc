@@ -30,6 +30,6 @@ docker compose up --detach
 +
 [source,sh]
 ----
-curl -s http://localhost:10547 -X POST -H "Content-Type: application/json" \
+curl -s http://localhost:11547 -X POST -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"optimism_syncStatus","params":[],"id":1}' | jq
 ----
