@@ -8,9 +8,9 @@ services:
       - "0.0.0.0:9224:9224" # P2P TCP
       - "0.0.0.0:9224:9224/udp" # P2P UDP
     command: >
-      --l1=https://ethereum-rpc.publicnode.com
-      --l1.rpckind=basic
-      --l1.beacon=https://ethereum-beacon-api.publicnode.com
+      --l1=${L1_RPC_URL}
+      --l1.rpckind=${L1_RPC_KIND}
+      --l1.beacon=${L1_BEACON_RPC_URL}
       --network=op-mainnet
       --rpc.addr=0.0.0.0
       --rpc.port=9547
