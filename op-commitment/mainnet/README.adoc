@@ -1,0 +1,16 @@
+= OP Commitment Node (Mainnet)
+
+Modified OP node that exposes block commitments via REST API.
+
+Source: https://github.com/malda-protocol/op-node-commitments
+
+== Usage
+
+[source,bash]
+----
+docker compose up --detach
+----
+
+== API
+
+RPC available at `http://localhost:9547`
