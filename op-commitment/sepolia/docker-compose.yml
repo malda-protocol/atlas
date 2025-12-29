@@ -8,7 +8,7 @@ services:
       - "0.0.0.0:9223:9223" # P2P TCP
       - "0.0.0.0:9223:9223/udp" # P2P UDP
     command: >
-      --l1=https://optimism-sepolia-rpc.publicnode.com
+      --l1=https://ethereum-sepolia-rpc.publicnode.com
       --l1.rpckind=basic
       --l1.beacon=https://ethereum-sepolia-beacon-api.publicnode.com
       --network=op-sepolia
