@@ -1,0 +1,66 @@
+# Named volumes for persistence.
+volumes:
+  base-mainnet-reth:
+    name: "base-mainnet-reth"
+
+services:
+  # Execution Layer
+  base-mainnet-reth:
+    restart: on-failure:5
+    image: ghcr.io/paradigmxyz/op-reth:v1.9.3
+    hostname: el-client
+    ports:
+      - "0.0.0.0:30303:30303" # P2P TCP
+      - "0.0.0.0:30303:30303/udp" # P2P UDP
+      - "0.0.0.0:10545:8545" # HTTP RPC
+      - "0.0.0.0:10546:8546" # WS RPC
+      - "127.0.0.1:10551:8551" # Engine API (for op-node)
+    volumes:
+      - base-mainnet-reth:/data
+      - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
+    command: >
+      node
+      --chain base-mainnet
+      --full
+      --datadir /data
+      --http
+      --http.addr 0.0.0.0
+      --http.port 8545
+      --http.api eth,net,web3,txpool
+      --ws
+      --ws.addr 0.0.0.0
+      --ws.port 8546
+      --authrpc.addr 0.0.0.0
+      --authrpc.port 8551
+      --authrpc.jwtsecret /jwt/jwt.hex
+      --port 30303
+      --rollup.sequencer-http ${SEQUENCER_HTTP}
+      --rollup.disable-tx-pool-gossip
+
+  # Consensus Layer
+  base-mainnet-node:
+    restart: on-failure:5
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.16.4
+    depends_on:
+      - base-mainnet-reth
+    ports:
+      - "0.0.0.0:9222:9222" # P2P TCP
+      - "0.0.0.0:9222:9222/udp" # P2P UDP
+      - "0.0.0.0:10547:8547" # RPC
+    volumes:
+      - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
+    command: >
+      op-node
+      --network base-mainnet
+      --l1 ${L1_RPC_URL}
+      --l1.rpckind ${L1_RPC_KIND}
+      --l1.beacon ${L1_BEACON_RPC_URL}
+      --l2 http://el-client:8551
+      --l2.jwt-secret /jwt/jwt.hex
+      --syncmode execution-layer
+      --rpc.addr 0.0.0.0
+      --rpc.port 8547
+      --p2p.listen.ip 0.0.0.0
+      --p2p.listen.tcp 9222
+      --p2p.listen.udp 9222
+      --p2p.bootnodes ${P2P_BOOTNODES}

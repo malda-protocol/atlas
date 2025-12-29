@@ -1,0 +1,35 @@
+= Base Mainnet Node
+
+Full-node setup, using **op-reth** and **op-node**.
+
+== Steps
+
+. Copy and configure environment:
++
+[source,sh]
+----
+cp .env.example .env
+# Edit .env with your L1 RPC endpoints
+----
+
+. Generate JWT token:
++
+[source,sh]
+----
+./generate-jwt-token.sh
+----
+
+. Run containers:
++
+[source,sh]
+----
+docker compose up --detach
+----
+
+. Check sync status:
++
+[source,sh]
+----
+curl -s http://localhost:10547 -X POST -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"optimism_syncStatus","params":[],"id":1}' | jq
+----

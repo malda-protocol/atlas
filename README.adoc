@@ -6,3 +6,5 @@ This repository container container-based setup for the following networks:
 - Linea Sepolia (full-node)
 - OP Mainnet (gossip-only with commitments API)
 - OP Sepolia (gossip-only with commitments API)
+- Base Mainnet (full-node)
+- Base Sepolia (full-node)
