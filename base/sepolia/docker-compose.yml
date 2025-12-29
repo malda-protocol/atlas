@@ -10,11 +10,11 @@ services:
     image: ghcr.io/paradigmxyz/op-reth:v1.9.3
     hostname: el-client
     ports:
-      - "0.0.0.0:30403:30403" # P2P TCP
-      - "0.0.0.0:30403:30403/udp" # P2P UDP
-      - "0.0.0.0:11545:8545" # HTTP RPC
-      - "0.0.0.0:11546:8546" # WS RPC
-      - "127.0.0.1:11551:8551" # Engine API (for op-node)
+      - "0.0.0.0:22100:22100" # P2P TCP
+      - "0.0.0.0:22100:22100/udp" # P2P UDP
+      - "0.0.0.0:22101:8545" # RPC-HTTP
+      - "0.0.0.0:22102:8546" # RPC-WS
+      - "127.0.0.1:22103:8551" # Engine API (for op-node)
     volumes:
       - base-sepolia-reth:/data
       - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
@@ -33,7 +33,7 @@ services:
       --authrpc.addr 0.0.0.0
       --authrpc.port 8551
       --authrpc.jwtsecret /jwt/jwt.hex
-      --port 30403
+      --port 22100
       --rollup.sequencer-http ${SEQUENCER_HTTP}
       --rollup.disable-tx-pool-gossip
 
@@ -44,9 +44,9 @@ services:
     depends_on:
       - base-sepolia-reth
     ports:
-      - "0.0.0.0:9222:9222" # P2P TCP
-      - "0.0.0.0:9222:9222/udp" # P2P UDP
-      - "0.0.0.0:11547:8547" # RPC
+      - "0.0.0.0:22110:22110" # P2P TCP
+      - "0.0.0.0:22110:22110/udp" # P2P UDP
+      - "0.0.0.0:22111:8547" # RPC-HTTP
     volumes:
       - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
     command: >
@@ -61,6 +61,6 @@ services:
       --rpc.addr 0.0.0.0
       --rpc.port 8547
       --p2p.listen.ip 0.0.0.0
-      --p2p.listen.tcp 9222
-      --p2p.listen.udp 9222
+      --p2p.listen.tcp 22110
+      --p2p.listen.udp 22110
       --p2p.bootnodes ${P2P_BOOTNODES}

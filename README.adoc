@@ -1,6 +1,6 @@
 = Atlas - RPC Infrastructure
 
-This repository container container-based setup for the following networks:
+This repository contains container-based setup for the following networks:
 
 - Linea Mainnet (full-node)
 - Linea Sepolia (full-node)
@@ -8,3 +8,34 @@ This repository container container-based setup for the following networks:
 - OP Sepolia (gossip-only with commitments API)
 - Base Mainnet (full-node)
 - Base Sepolia (full-node)
+
+== Ports
+
+[cols="1,1,1,1,1,1,1"]
+|===
+| Chain | Network | EL P2P | EL RPC-HTTP | EL RPC-WS | CL P2P | CL RPC-HTTP
+
+| Ethereum | mainnet | 20000 | 20001 | 20002 | 20010 | 20011
+| Ethereum | sepolia | 20100 | 20101 | 20102 | 20110 | 20111
+| Linea | mainnet | 21000 | 21001 | 21002 | 21010 | 21011
+| Linea | sepolia | 21100 | 21101 | 21102 | 21110 | 21111
+| Base | mainnet | 22000 | 22001 | 22002 | 22010 | 22011
+| Base | sepolia | 22100 | 22101 | 22102 | 22110 | 22111
+| OP | mainnet | 23000 | 23001 | 23002 | 23010 | 23011
+| OP | sepolia | 23100 | 23101 | 23102 | 23110 | 23111
+7+|
+| OP Gossip ^1^ | mainnet | - | - | - | 24010 | 24011
+| OP Gossip ^1^ | sepolia | - | - | - | 24110 | 24111
+|===
+
+^1^ Commitments API exposed via CL RPC-HTTP
+
+=== Port Pattern
+
+Format: `2CNLP`
+
+- **2** = Prefix
+- **C** = Chain (0=Ethereum, 1=Linea, 2=Base, 3=OP, 4=OP Gossip)
+- **N** = Network (0=mainnet, 1=sepolia)
+- **L** = Layer (0=EL, 1=CL)
+- **P** = Port (0=P2P, 1=RPC-HTTP, 2=RPC-WS)

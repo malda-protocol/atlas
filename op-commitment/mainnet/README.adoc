@@ -14,4 +14,4 @@ docker compose up --detach
 
 == API
 
-RPC available at `http://localhost:9547`
+RPC available at `http://localhost:24011`

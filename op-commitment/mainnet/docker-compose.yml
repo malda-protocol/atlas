@@ -4,16 +4,16 @@ services:
     restart: on-failure:5
     image: koxu1996/op-node:v1.16.3
     ports:
-      - "0.0.0.0:9547:9547" # RPC
-      - "0.0.0.0:9224:9224" # P2P TCP
-      - "0.0.0.0:9224:9224/udp" # P2P UDP
+      - "0.0.0.0:24010:24010" # P2P TCP
+      - "0.0.0.0:24010:24010/udp" # P2P UDP
+      - "0.0.0.0:24011:24011" # RPC-HTTP (includes Commitments API)
     command: >
       --l1=${L1_RPC_URL}
       --l1.rpckind=${L1_RPC_KIND}
       --l1.beacon=${L1_BEACON_RPC_URL}
       --network=op-mainnet
       --rpc.addr=0.0.0.0
-      --rpc.port=9547
+      --rpc.port=24011
       --p2p.listen.ip=0.0.0.0
-      --p2p.listen.tcp=9224
+      --p2p.listen.tcp=24010
       --gossip-only

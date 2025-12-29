@@ -3,7 +3,7 @@ data-path="/opt/maru/data"
 private-key-path="/opt/maru/private-key"
 
 [p2p]
-port = 9005
+port = 21010
 ip-address = "0.0.0.0"
 static-peers = [
   "/ip4/18.223.198.165/tcp/31005/p2p/16Uiu2HAmSJSpgBxVoMcRZ4u8CQbTgfPrbw6u7xH1BnMgwAQZAm91",
@@ -15,7 +15,7 @@ static-peers = [
 reconnect-delay = "500 ms"
 
 [p2p.discovery]
-port = 9005
+port = 21010
 bootnodes = []
 refresh-interval = "10s"
 
@@ -29,7 +29,7 @@ jvm-metrics-enabled = false
 prometheus-metrics-enabled = false
 
 [api]
-port = 8080
+port = 21011
 
 [syncing]
 peer-chain-height-polling-interval = "5 seconds"
