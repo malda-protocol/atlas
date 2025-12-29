@@ -8,6 +8,7 @@ Source: https://github.com/malda-protocol/op-node-commitments
 
 [source,bash]
 ----
+cp .env.example .env
 docker compose up --detach
 ----
 
