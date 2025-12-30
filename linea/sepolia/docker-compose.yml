@@ -1,3 +1,5 @@
+name: linea-sepolia
+
 # Named volumes for persistence.
 volumes:
   linea-sepolia-besu:

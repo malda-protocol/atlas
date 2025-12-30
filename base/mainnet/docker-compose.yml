@@ -1,3 +1,5 @@
+name: base-mainnet
+
 # Named volumes for persistence.
 volumes:
   base-mainnet-reth:

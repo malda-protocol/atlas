@@ -1,3 +1,5 @@
+name: op-commitment-mainnet
+
 services:
   # Consensus Layer (gossip-only with commitments exposed via API)
   op-commitment-mainnet-node:

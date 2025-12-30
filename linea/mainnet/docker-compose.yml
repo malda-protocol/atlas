@@ -1,3 +1,5 @@
+name: linea-mainnet
+
 # Named volumes for persistence.
 volumes:
   linea-mainnet-besu:
