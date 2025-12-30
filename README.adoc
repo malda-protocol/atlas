@@ -4,10 +4,10 @@ This repository contains container-based setup for the following networks:
 
 - Linea Mainnet (full-node)
 - Linea Sepolia (full-node)
-- OP Mainnet (gossip-only with commitments API)
-- OP Sepolia (gossip-only with commitments API)
 - Base Mainnet (full-node)
 - Base Sepolia (full-node)
+- OP Mainnet (gossip-only with commitments API)
+- OP Sepolia (gossip-only with commitments API)
 
 == Ports
 
