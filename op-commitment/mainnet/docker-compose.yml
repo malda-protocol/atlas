@@ -2,7 +2,7 @@ name: op-commitment-mainnet
 
 services:
   # Consensus Layer (gossip-only with commitments exposed via API)
-  op-commitment-mainnet-node:
+  node:
     restart: on-failure:5
     image: koxu1996/op-node:v1.16.3
     ports:

@@ -9,7 +9,7 @@ volumes:
 
 services:
   # Execution Layer
-  linea-mainnet-besu:
+  besu:
     restart: on-failure:5
     image: consensys/linea-besu-package:beta-v4.4-rc7-20251202165721-14b8f4c
     hostname: el-client
@@ -40,11 +40,11 @@ services:
       --sync-mode snap
 
   # Consensus Layer
-  linea-mainnet-maru:
+  maru:
     restart: on-failure:5
     image: consensys/maru:9737a45
     depends_on:
-      - linea-mainnet-besu
+      - besu
     ports:
       - "0.0.0.0:21010:21010" # P2P
       - "0.0.0.0:21011:21011" # RPC-HTTP

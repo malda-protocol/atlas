@@ -2,7 +2,7 @@ name: op-commitment-sepolia
 
 services:
   # Consensus Layer (gossip-only with commitments exposed via API)
-  op-commitment-sepolia-node:
+  node:
     restart: on-failure:5
     image: koxu1996/op-node:v1.16.3
     ports:

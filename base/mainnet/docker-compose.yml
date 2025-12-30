@@ -7,7 +7,7 @@ volumes:
 
 services:
   # Execution Layer
-  base-mainnet-reth:
+  reth:
     restart: on-failure:5
     image: ghcr.io/paradigmxyz/op-reth:v1.9.3
     hostname: el-client
@@ -40,11 +40,11 @@ services:
       --rollup.disable-tx-pool-gossip
 
   # Consensus Layer
-  base-mainnet-node:
+  node:
     restart: on-failure:5
     image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.16.4
     depends_on:
-      - base-mainnet-reth
+      - reth
     ports:
       - "0.0.0.0:22010:22010" # P2P TCP
       - "0.0.0.0:22010:22010/udp" # P2P UDP
