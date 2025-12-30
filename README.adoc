@@ -1,17 +1,19 @@
 = Atlas - RPC Infrastructure
 
-This repository contains container-based setup for the following networks:
+Container-based node setups for EVM networks.
 
-- Ethereum Mainnet (full-node)
-- Ethereum Sepolia (full-node)
-- Linea Mainnet (full-node)
-- Linea Sepolia (full-node)
-- Base Mainnet (full-node)
-- Base Sepolia (full-node)
-- OP Mainnet (full-node)
-- OP Sepolia (full-node)
-- OP Mainnet (gossip-only with commitments API)
-- OP Sepolia (gossip-only with commitments API)
+== Supported Chains
+
+[cols="1,1,1"]
+|===
+| Chain | Networks | Type
+
+| Ethereum | mainnet, sepolia | full-node
+| Linea | mainnet, sepolia | full-node
+| Base | mainnet, sepolia | full-node
+| OP | mainnet, sepolia | full-node
+| OP Commitment | mainnet, sepolia | gossip-only
+|===
 
 == Ports
 
