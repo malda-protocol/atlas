@@ -22,7 +22,7 @@ services:
       - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
     command: >
       node
-      --chain op-mainnet
+      --chain optimism
       --full
       --datadir /data
       --http

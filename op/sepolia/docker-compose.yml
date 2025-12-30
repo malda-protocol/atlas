@@ -22,7 +22,7 @@ services:
       - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
     command: >
       node
-      --chain op-sepolia
+      --chain optimism-sepolia
       --full
       --datadir /data
       --http
