@@ -2,6 +2,8 @@
 
 This repository contains container-based setup for the following networks:
 
+- Ethereum Mainnet (full-node)
+- Ethereum Sepolia (full-node)
 - Linea Mainnet (full-node)
 - Linea Sepolia (full-node)
 - Base Mainnet (full-node)

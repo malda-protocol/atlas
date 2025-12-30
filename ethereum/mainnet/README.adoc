@@ -1,0 +1,33 @@
+= Ethereum Mainnet Node
+
+Full-node setup, using **Reth** (execution layer) and **Lighthouse** (consensus layer).
+
+== Steps
+
+. Generate JWT token:
++
+[source,sh]
+----
+./generate-jwt-token.sh
+----
+
+. Run containers:
++
+[source,sh]
+----
+docker compose up --detach
+----
+
+. Check sync status:
++
+[source,sh]
+----
+# Execution layer sync status
+curl -s http://localhost:20001 -X POST -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' | jq
+
+# Consensus layer sync status
+curl -s http://localhost:20012/eth/v1/node/syncing | jq
+----
+
+. Wait for sync to complete (may take several hours depending on network conditions).
