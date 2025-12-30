@@ -1,0 +1,67 @@
+name: op-sepolia
+
+# Named volumes for persistence.
+volumes:
+  op-sepolia-reth:
+    name: "op-sepolia-reth"
+
+services:
+  # Execution Layer
+  reth:
+    restart: on-failure:5
+    image: ghcr.io/paradigmxyz/op-reth:v1.9.3
+    hostname: el-client
+    ports:
+      - "0.0.0.0:23100:23100" # P2P TCP
+      - "0.0.0.0:23100:23100/udp" # P2P UDP
+      - "0.0.0.0:23101:8545" # RPC-HTTP
+      - "0.0.0.0:23102:8546" # RPC-WS
+      - "127.0.0.1:23103:8551" # Engine API (for op-node)
+    volumes:
+      - op-sepolia-reth:/data
+      - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
+    command: >
+      node
+      --chain op-sepolia
+      --full
+      --datadir /data
+      --http
+      --http.addr 0.0.0.0
+      --http.port 8545
+      --http.api eth,net,web3,txpool
+      --ws
+      --ws.addr 0.0.0.0
+      --ws.port 8546
+      --authrpc.addr 0.0.0.0
+      --authrpc.port 8551
+      --authrpc.jwtsecret /jwt/jwt.hex
+      --port 23100
+      --rollup.sequencer-http ${SEQUENCER_HTTP}
+      --rollup.disable-tx-pool-gossip
+
+  # Consensus Layer
+  node:
+    restart: on-failure:5
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.16.4
+    depends_on:
+      - reth
+    ports:
+      - "0.0.0.0:23110:23110" # P2P TCP
+      - "0.0.0.0:23110:23110/udp" # P2P UDP
+      - "0.0.0.0:23111:8547" # RPC-HTTP
+    volumes:
+      - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
+    command: >
+      op-node
+      --network op-sepolia
+      --l1 ${L1_RPC_URL}
+      --l1.rpckind ${L1_RPC_KIND}
+      --l1.beacon ${L1_BEACON_RPC_URL}
+      --l2 http://el-client:8551
+      --l2.jwt-secret /jwt/jwt.hex
+      --syncmode execution-layer
+      --rpc.addr 0.0.0.0
+      --rpc.port 8547
+      --p2p.listen.ip 0.0.0.0
+      --p2p.listen.tcp 23110
+      --p2p.listen.udp 23110
