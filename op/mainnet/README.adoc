@@ -2,6 +2,8 @@
 
 Full-node setup, using **op-reth** and **op-node**.
 
+NOTE: op-reth cannot sync OP Mainnet from genesis. The pre-Bedrock state (block 105,235,063) must be imported before the first run.
+
 == Steps
 
 . Copy and configure environment:
@@ -17,6 +19,27 @@ cp .env.example .env
 [source,sh]
 ----
 ./generate-jwt-token.sh
+----
+
+. Bootstrap Bedrock state:
++
+Download the state snapshot from https://datadirs.optimism.io and decompress it:
++
+[source,sh]
+----
+wget https://datadirs.optimism.io/op-mainnet-pre-bedrockstate.zst
+unzstd op-mainnet-pre-bedrockstate.zst
+----
++
+Import it into the Docker volume:
++
+[source,sh]
+----
+docker run --rm \
+  -v op-mainnet-reth:/data \
+  -v $(pwd)/op-mainnet-pre-bedrockstate:/import/op-mainnet-pre-bedrockstate \
+  ghcr.io/paradigmxyz/op-reth:v1.9.3 \
+  init-state --without-ovm --chain optimism --datadir /data /import/op-mainnet-pre-bedrockstate
 ----
 
 . Run containers:
