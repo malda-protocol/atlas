@@ -1,8 +1,8 @@
 = OP Mainnet Node
 
-Full-node setup, using **op-reth** and **op-node**.
+Full-node setup, using **op-geth** and **op-node**.
 
-NOTE: op-reth cannot sync OP Mainnet from genesis. Either restore from a full reth snapshot or bootstrap the pre-Bedrock state before the first run.
+NOTE: Switched from op-reth to op-geth due to unreliable `eth_getProof` support. For the previous reth-based setup, see commit `6e04c5e6`.
 
 == Steps
 
@@ -19,48 +19,6 @@ cp .env.example .env
 [source,sh]
 ----
 ./generate-jwt-token.sh
-----
-
-. Bootstrap data (pick one):
-
-.. *Option A — Restore from snapshot (recommended):*
-+
-Download a full reth snapshot (check https://datadirs.optimism.io for newer versions):
-+
-[source,sh]
-----
-wget https://datadirs.optimism.io/mainnet-reth-full-2026-02-09.tar.zst
-# Much faster alternative: aria2c -x 16 -s 16 https://datadirs.optimism.io/mainnet-reth-full-2026-02-09.tar.zst
-----
-+
-Extract snapshot directly into the volume:
-+
-[source,sh]
-----
-docker volume create op-mainnet-reth
-zstd -d < mainnet-reth-full-2026-02-09.tar.zst | docker run --rm -i -v op-mainnet-reth:/data busybox tar -xvf - -C /data
-----
-
-.. *Option B — Bootstrap Bedrock state:*
-+
-Download the pre-Bedrock state from https://datadirs.optimism.io and decompress it:
-+
-[source,sh]
-----
-wget https://datadirs.optimism.io/op-mainnet-pre-bedrockstate.zst
-# Much faster alternative: aria2c -x 16 -s 16 https://datadirs.optimism.io/op-mainnet-pre-bedrockstate.zst
-unzstd op-mainnet-pre-bedrockstate.zst
-----
-+
-Import it into the Docker volume:
-+
-[source,sh]
-----
-docker run --rm \
-  -v op-mainnet-reth:/data \
-  -v $(pwd)/op-mainnet-pre-bedrockstate:/import/op-mainnet-pre-bedrockstate \
-  ghcr.io/paradigmxyz/op-reth:v1.9.3 \
-  init-state --without-ovm --chain optimism --datadir /data /import/op-mainnet-pre-bedrockstate
 ----
 
 . Run containers:

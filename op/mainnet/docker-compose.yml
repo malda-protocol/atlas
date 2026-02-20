@@ -2,14 +2,14 @@ name: op-mainnet
 
 # Named volumes for persistence.
 volumes:
-  op-mainnet-reth:
-    name: "op-mainnet-reth"
+  op-mainnet-geth:
+    name: "op-mainnet-geth"
 
 services:
   # Execution Layer
-  reth:
+  geth:
     restart: on-failure:5
-    image: ghcr.io/paradigmxyz/op-reth:v1.9.3
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101609.0
     hostname: el-client
     ports:
       - "0.0.0.0:23000:23000" # P2P TCP
@@ -18,12 +18,12 @@ services:
       - "0.0.0.0:23002:8546" # RPC-WS
       - "127.0.0.1:23003:8551" # Engine API (for op-node)
     volumes:
-      - op-mainnet-reth:/data
+      - op-mainnet-geth:/data
       - ./jwttoken/jwt.hex:/jwt/jwt.hex:ro
     command: >
-      node
-      --chain optimism
-      --full
+      --op-network op-mainnet
+      --syncmode snap
+      --gcmode full
       --datadir /data
       --http
       --http.addr 0.0.0.0
@@ -36,16 +36,15 @@ services:
       --authrpc.port 8551
       --authrpc.jwtsecret /jwt/jwt.hex
       --port 23000
-      --rollup.sequencer-http ${SEQUENCER_HTTP}
-      --rollup.disable-tx-pool-gossip
-      --rpc.eth-proof-window 1209600
+      --rollup.sequencerhttp ${SEQUENCER_HTTP}
+      --rollup.disabletxpoolgossip
 
   # Consensus Layer
   node:
     restart: on-failure:5
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.16.4
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.16.6
     depends_on:
-      - reth
+      - geth
     ports:
       - "0.0.0.0:23010:23010" # P2P TCP
       - "0.0.0.0:23010:23010/udp" # P2P UDP
@@ -61,7 +60,6 @@ services:
       --l2 http://el-client:8551
       --l2.jwt-secret /jwt/jwt.hex
       --syncmode execution-layer
-      --l2.enginekind reth
       --rpc.addr 0.0.0.0
       --rpc.port 8547
       --p2p.listen.ip 0.0.0.0
