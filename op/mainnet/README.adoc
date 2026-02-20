@@ -32,14 +32,6 @@ Download a full reth snapshot from https://datadirs.optimism.io:
 wget https://datadirs.optimism.io/mainnet-reth-full-2026-02-09.tar.zst
 ----
 +
-Stop containers and clear existing data:
-+
-[source,sh]
-----
-docker compose down
-docker run --rm -v op-mainnet-reth:/data busybox rm -rf /data/*
-----
-+
 Extract snapshot into the volume:
 +
 [source,sh]
