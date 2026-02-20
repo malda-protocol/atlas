@@ -2,7 +2,7 @@
 
 Full-node setup, using **op-reth** and **op-node**.
 
-NOTE: op-reth cannot sync OP Mainnet from genesis. The pre-Bedrock state (block 105,235,063) must be imported before the first run.
+NOTE: op-reth cannot sync OP Mainnet from genesis. Either restore from a full reth snapshot or bootstrap the pre-Bedrock state before the first run.
 
 == Steps
 
@@ -21,9 +21,40 @@ cp .env.example .env
 ./generate-jwt-token.sh
 ----
 
-. Bootstrap Bedrock state:
+. Bootstrap data (pick one):
+
+.. *Option A — Restore from snapshot (recommended):*
 +
-Download the state snapshot from https://datadirs.optimism.io and decompress it:
+Download a full reth snapshot from https://datadirs.optimism.io:
++
+[source,sh]
+----
+wget https://datadirs.optimism.io/mainnet-reth-full-2026-02-09.tar.zst
+----
++
+Stop containers and clear existing data:
++
+[source,sh]
+----
+docker compose down
+docker run --rm -v op-mainnet-reth:/data busybox rm -rf /data/*
+----
++
+Extract snapshot into the volume:
++
+[source,sh]
+----
+tar -I zstd -xvf mainnet-reth-full-2026-02-09.tar.zst
+docker run --rm \
+  -v op-mainnet-reth:/data \
+  -v $(pwd)/reth:/import busybox \
+  sh -c "mv /import/* /data/ && rm -rf /import"
+rm -rf ./reth
+----
+
+.. *Option B — Bootstrap Bedrock state:*
++
+Download the pre-Bedrock state from https://datadirs.optimism.io and decompress it:
 +
 [source,sh]
 ----
