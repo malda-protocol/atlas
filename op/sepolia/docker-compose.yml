@@ -38,6 +38,7 @@ services:
       --port 23100
       --rollup.sequencer-http ${SEQUENCER_HTTP}
       --rollup.disable-tx-pool-gossip
+      --rpc.eth-proof-window 1209600
 
   # Consensus Layer
   node:
