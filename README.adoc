@@ -45,3 +45,7 @@ Format: `2CNLP`
 - **N** = Network (0=mainnet, 1=sepolia)
 - **L** = Layer (0=EL, 1=CL)
 - **P** = Port (0=P2P, 1=RPC-HTTP, 2=RPC-WS)
+
+== License
+
+link:LICENSE[MIT]
