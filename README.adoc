@@ -8,11 +8,11 @@ Container-based node setups for EVM networks.
 |===
 | Chain | Networks | Type
 
-| Ethereum | mainnet, sepolia | full-node
-| Linea | mainnet, sepolia | full-node
-| Base | mainnet, sepolia | full-node
-| OP | mainnet, sepolia | full-node
-| OP Commitment | mainnet, sepolia | gossip-only
+| Ethereum | link:ethereum/mainnet/README.adoc[mainnet], link:ethereum/sepolia/README.adoc[sepolia] | full-node
+| Linea | link:linea/mainnet/README.adoc[mainnet], link:linea/sepolia/README.adoc[sepolia] | full-node
+| Base | link:base/mainnet/README.adoc[mainnet], link:base/sepolia/README.adoc[sepolia] | full-node
+| OP | link:op/mainnet/README.adoc[mainnet], link:op/sepolia/README.adoc[sepolia] | full-node
+| OP Commitment | link:op-commitment/mainnet/README.adoc[mainnet], link:op-commitment/sepolia/README.adoc[sepolia] | gossip-only
 |===
 
 == Ports
