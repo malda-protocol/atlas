@@ -1,5 +1,7 @@
 = Atlas - RPC Infrastructure
 
+NOTE: This repository has been archived due to the sunset of the Malda Sequencer.
+
 Container-based node setups for EVM networks.
 
 == Supported Chains
