@@ -4,6 +4,10 @@ WARNING: ⚠️ This repository is no longer maintained by the core team. Commun
 
 Container-based node setups for EVM networks.
 
+== Context in Malda Sequencer
+
+Atlas was built as a runtime dependency for the Malda Sequencer, providing low-latency RPC as the primary node layer, with hosted providers like Alchemy serving as a fallback. Running your own nodes gives you full control over uptime, latency, and data access.
+
 == Supported Chains
 
 [cols="1,1,1"]
